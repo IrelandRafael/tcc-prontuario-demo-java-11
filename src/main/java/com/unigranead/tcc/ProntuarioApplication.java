@@ -1,4 +1,4 @@
-package com.unigranead.prontuario;
+package com.unigranead.tcc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +8,7 @@ public class ProntuarioApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProntuarioApplication.class, args);
+
 	}
 
 }
