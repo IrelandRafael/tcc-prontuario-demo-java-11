@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
  
 @Entity
 public class Login implements Serializable {
@@ -22,6 +24,7 @@ public class Login implements Serializable {
 	private String usuario;
 	private String senha;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "login")
 	private List<Paciente> pacientes = new ArrayList<>();
 	
