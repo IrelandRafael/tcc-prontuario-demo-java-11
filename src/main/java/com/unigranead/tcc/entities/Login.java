@@ -1,12 +1,15 @@
 package com.unigranead.tcc.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
  
 @Entity
@@ -18,6 +21,9 @@ public class Login implements Serializable {
 	private Integer idLogin;
 	private String usuario;
 	private String senha;
+	
+	@ManyToMany(mappedBy = "login")
+	private List<Paciente> pacientes = new ArrayList<>();
 	
 	public Login() {
 		super();
@@ -53,6 +59,12 @@ public class Login implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	
+
+	public List<Paciente> getpacientes() {
+		return pacientes;
+	}
+
 
 	@Override
 	public int hashCode() {
