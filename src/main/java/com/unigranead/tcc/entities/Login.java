@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,6 +29,10 @@ public class Login implements Serializable {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "login")
 	private List<Paciente> pacientes = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "login")
+	private List<Funcionario> funcionarios = new ArrayList<>();
 	
 	public Login() {
 		super();
@@ -67,8 +73,13 @@ public class Login implements Serializable {
 	public List<Paciente> getpacientes() {
 		return pacientes;
 	}
+	
 
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idLogin, usuario);
