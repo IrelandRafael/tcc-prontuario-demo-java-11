@@ -1,6 +1,8 @@
 package com.unigranead.tcc.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -26,6 +28,14 @@ public class Funcionario implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "idLogin")
 	private Login login;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "login")
+	private List<Funcionario> pacientes = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "funcionario")
+	private List<Medico> medicos = new ArrayList<>();
 
 	public Funcionario() {
 		super();

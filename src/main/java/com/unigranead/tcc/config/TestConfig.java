@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Profile;
 
 import com.unigranead.tcc.entities.Funcionario;
 import com.unigranead.tcc.entities.Login;
+import com.unigranead.tcc.entities.Medico;
 import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.repositories.FuncionarioRepository;
 import com.unigranead.tcc.repositories.LoginRepository;
+import com.unigranead.tcc.repositories.MedicoRepository;
 import com.unigranead.tcc.repositories.PacienteRepository;
 
 @Configuration
@@ -26,6 +28,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
+	
+	@Autowired
+	private MedicoRepository medicoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -42,8 +47,14 @@ public class TestConfig implements CommandLineRunner {
 		Funcionario f1 = new Funcionario(null, "Pedro", fn1);
 		Funcionario f2 = new Funcionario(null, "Maria", fn2);
 		
+		Medico m1 = new Medico("001", "cardiologista", f1);
+		Medico m2 = new Medico("002", "ginecologista", f2);
+		
+		
+		
 		loginRepository.saveAll(Arrays.asList(lgpc1,lgpc2, fn1, fn2));
 		pacienteRepository.saveAll(Arrays.asList(p1, p2));
 		funcionarioRepository.saveAll(Arrays.asList(f1, f2));
+		medicoRepository.saveAll(Arrays.asList(m1, m2));
 	}
 }
