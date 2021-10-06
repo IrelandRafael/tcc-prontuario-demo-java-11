@@ -24,4 +24,7 @@ public class PacienteServices {
 		return obj.get();
 	}
 	
+	public Paciente insert(Paciente obj) {
+		return repository.save(obj);
+	}
 }

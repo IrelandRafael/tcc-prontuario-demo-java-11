@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.unigranead.tcc.entities.Funcionario;
 import com.unigranead.tcc.repositories.FuncionarioRepository;
 
+
 @Service
 public class FuncionarioServices {
 
@@ -19,8 +20,8 @@ public class FuncionarioServices {
 		return repository.findAll();
 	}
 	
-	public Funcionario findById(Integer idFuncionario) {
-		Optional<Funcionario> obj = repository.findById(idFuncionario);
+	public Funcionario findById(Integer idFunccionario) {
+		Optional<Funcionario> obj = repository.findById(idFunccionario);
 		return obj.get();
 	}
 	

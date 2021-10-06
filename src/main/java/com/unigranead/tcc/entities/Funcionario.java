@@ -2,8 +2,10 @@ package com.unigranead.tcc.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,13 +32,21 @@ public class Funcionario implements Serializable{
 	private Login login;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "login")
-	private List<Funcionario> pacientes = new ArrayList<>();
+	@ManyToMany
+	private List<Medico> medicos = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "funcionario")
-	private List<Medico> medicos = new ArrayList<>();
-
+	@ManyToMany
+	private List<Enfermagem> enfermagens = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany
+	private List<Atendente> atendentes = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany
+	private List<Paciente> paccientes = new ArrayList<>();
+	
 	public Funcionario() {
 		super();
 	}
@@ -71,6 +81,26 @@ public class Funcionario implements Serializable{
 	public void setLogin(Login login) {
 		this.login = login;
 	}
+	
+	
+	public List<Medico> getMedicos() {
+		return medicos;
+	}
+	
+	
+	public List<Enfermagem> getEnfermagens() {
+		return enfermagens;
+	}
+
+
+	public List<Atendente> getAtendentes() {
+		return atendentes;
+	}
+	
+	public List<Paciente> getPaccientes() {
+		return paccientes;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -88,7 +118,6 @@ public class Funcionario implements Serializable{
 		Funcionario other = (Funcionario) obj;
 		return Objects.equals(idFuncionario, other.idFuncionario);
 	}
-	
-	
+
 
 }

@@ -1,8 +1,6 @@
 package com.unigranead.tcc.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -22,54 +20,41 @@ public class Medico implements Serializable {
 	@JoinColumn(name = "idFuncionario")
 	private Funcionario funcionario; 
 
+	public Medico() {
+		super();
+	}
+
 	public Medico(String cfm, String departamentoMedico, Funcionario funcionario) {
 		super();
 		this.cfm = cfm;
 		this.departamentoMedico = departamentoMedico;
 		this.funcionario = funcionario;
 	}
-	
-	
 
 	public String getCfm() {
 		return cfm;
 	}
-
-
-
-	public void setCfm(String cfm) {
-		this.cfm = cfm;
-	}
-
-
-
+	
 	public String getDepartamentoMedico() {
 		return departamentoMedico;
 	}
-
-
 
 	public void setDepartamentoMedico(String departamentoMedico) {
 		this.departamentoMedico = departamentoMedico;
 	}
 
-
-
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
-
-
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
 
-
-
-	public Medico() {
-		super();
+	public void setCfm(String cfm) {
+		this.cfm = cfm;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -78,6 +63,7 @@ public class Medico implements Serializable {
 		result = prime * result + Objects.hash(cfm);
 		return result;
 	}
+	
 
 	@Override
 	public boolean equals(Object obj) {

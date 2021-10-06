@@ -10,26 +10,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unigranead.tcc.entities.Funcionario;
-import com.unigranead.tcc.services.FuncionarioServices;
+import com.unigranead.tcc.entities.Enfermagem;
+import com.unigranead.tcc.services.EnfermagemServices;
 
 @RestController 
-@RequestMapping(value = "/funccionarios")
-public class FuncionarioResources {
+@RequestMapping(value = "/enfermagens")
+public class EnfermagemResources {
 
 	@Autowired
-	private FuncionarioServices service;
+	private EnfermagemServices service;
 	
 	@GetMapping
-	public ResponseEntity<List<Funcionario>> findALL(){
-		List<Funcionario> list = service.findAll();
+	public ResponseEntity<List<Enfermagem>> findALL(){
+		List<Enfermagem> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 		
 	}
 	
-	@GetMapping(value = "/{idFuncionario}")
-	public ResponseEntity<Funcionario> findById(@PathVariable Integer idFuncionario){
-		Funcionario obj = service.findById(idFuncionario);
+	@GetMapping(value = "/{cfm}")
+	public ResponseEntity<Enfermagem> findById(@PathVariable String cfm){
+		Enfermagem obj = service.findById(cfm);
 		return ResponseEntity.ok().body(obj);
 	}
 		
