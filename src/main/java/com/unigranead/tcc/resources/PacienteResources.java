@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,12 @@ public class PacienteResources {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idPaciente}").buildAndExpand(obj.getIdPaciente()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
-		
 	
+	@DeleteMapping(value = "/{idPaciente}")
+	public ResponseEntity<Void> delete(@PathVariable Integer idPaciente){
+		service.delete(idPaciente);
+		return ResponseEntity.noContent().build();
+	}
+		
+
 }

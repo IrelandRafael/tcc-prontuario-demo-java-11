@@ -27,4 +27,8 @@ public class PacienteServices {
 	public Paciente insert(Paciente obj) {
 		return repository.save(obj);
 	}
+	
+	public void delete(Integer idPaciente) {
+		repository.deleteById(idPaciente);
+	}
 }
