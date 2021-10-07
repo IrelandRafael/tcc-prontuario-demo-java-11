@@ -31,4 +31,20 @@ public class PacienteServices {
 	public void delete(Integer idPaciente) {
 		repository.deleteById(idPaciente);
 	}
+	
+	
+	public Paciente update(Integer idPaciente, Paciente obj) {
+		Paciente entity = repository.getById(idPaciente);
+		updateData(entity, obj);
+			return repository.save(entity);
+		
+	}
+
+	private void updateData(Paciente entity, Paciente obj) {
+		obj.setFoto(obj.getFoto());
+		obj.setNome(obj.getNome());
+		obj.setRg(obj.getRg());
+		obj.setCpf(obj.getCpf());
+		obj.setEndereco(obj.getEndereco());
+	}
 }
