@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.services.PacienteServices;
 
 @RestController 
 @RequestMapping(value = "/pacientes")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PacienteResources {
 
 	@Autowired

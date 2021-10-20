@@ -3,11 +3,16 @@ package com.unigranead.tcc.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResource;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.repositories.PacienteRepository;
+import com.unigranead.tcc.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class PacienteServices {
@@ -21,7 +26,7 @@ public class PacienteServices {
 	
 	public Paciente findById(Integer idPaciente) {
 		Optional<Paciente> obj = repository.findById(idPaciente);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(idPaciente));
 	}
 	
 	public Paciente insert(Paciente obj) {
@@ -34,17 +39,20 @@ public class PacienteServices {
 	
 	
 	public Paciente update(Integer idPaciente, Paciente obj) {
+		
 		Paciente entity = repository.getById(idPaciente);
 		updateData(entity, obj);
-			return repository.save(entity);
+		return repository.save(entity);	
 		
 	}
 
 	private void updateData(Paciente entity, Paciente obj) {
-		obj.setFoto(obj.getFoto());
-		obj.setNome(obj.getNome());
-		obj.setRg(obj.getRg());
-		obj.setCpf(obj.getCpf());
-		obj.setEndereco(obj.getEndereco());
+		
+		entity.setNome(obj.getNome());
+		entity.setRg(obj.getRg());
+		entity.setCpf(obj.getCpf());
+		entity.setTelefone(obj.getTelefone());
+		
 	}
+
 }
