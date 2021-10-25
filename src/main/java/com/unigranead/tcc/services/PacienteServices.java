@@ -3,6 +3,8 @@ package com.unigranead.tcc.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -44,11 +46,13 @@ public class PacienteServices {
 	
 	
 	public Paciente update(Integer idPaciente, Paciente obj) {
-		
-		Paciente entity = repository.getById(idPaciente);
-		updateData(entity, obj);
-		return repository.save(entity);	
-		
+		try {
+			Paciente entity = repository.getById(idPaciente);
+			updateData(entity, obj);
+			return repository.save(entity);	
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(idPaciente);
+		}
 	}
 
 	private void updateData(Paciente entity, Paciente obj) {
