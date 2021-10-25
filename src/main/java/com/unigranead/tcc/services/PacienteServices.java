@@ -3,15 +3,14 @@ package com.unigranead.tcc.services;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResource;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.repositories.PacienteRepository;
+import com.unigranead.tcc.services.exceptions.DataBaseException;
 import com.unigranead.tcc.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -34,7 +33,13 @@ public class PacienteServices {
 	}
 	
 	public void delete(Integer idPaciente) {
-		repository.deleteById(idPaciente);
+		try {
+			repository.deleteById(idPaciente);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(idPaciente);
+		} catch(DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
 	}
 	
 	
