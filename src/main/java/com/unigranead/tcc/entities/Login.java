@@ -27,6 +27,7 @@ public class Login implements Serializable {
 	private Integer idLogin;
 	private String usuario;
 	private String senha;
+	private String permissao;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "login")
@@ -81,7 +82,14 @@ public class Login implements Serializable {
 		return funcionarios;
 	}
 
-	
+	public String getPermissao() {
+		return permissao;
+	}
+
+	public void setPermissao(String permissao) {
+		this.permissao = permissao;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idLogin, usuario);

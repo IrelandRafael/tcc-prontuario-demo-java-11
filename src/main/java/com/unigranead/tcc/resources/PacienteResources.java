@@ -4,7 +4,6 @@ package com.unigranead.tcc.resources;
 import java.net.URI;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +34,12 @@ public class PacienteResources {
 		return ResponseEntity.ok().body(list);
 		
 	}
+
+	@GetMapping(value = "/paciente/{idPaciente}")
+	public ResponseEntity<Paciente> findPacienteById(@PathVariable Integer idPaciente){
+		Paciente obj = service.findById(idPaciente);
+		return ResponseEntity.ok().body(obj);
+	}
 	
 	@GetMapping(value = "/{idPaciente}")
 	public ResponseEntity<Paciente> findById(@PathVariable Integer idPaciente){
@@ -45,7 +50,7 @@ public class PacienteResources {
 	@PostMapping
 	public ResponseEntity<Paciente> insert(@RequestBody Paciente obj){
 		obj = service.insert(obj); 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idPaciente}").buildAndExpand(obj.getIdPaciente()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idPaciente}").buildAndExpand("idteste").toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 	

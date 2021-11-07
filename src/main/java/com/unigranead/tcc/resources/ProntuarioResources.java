@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.entities.Prontuario;
 import com.unigranead.tcc.services.ProntuarioServices;
 
@@ -34,6 +33,12 @@ public class ProntuarioResources {
 		List<Prontuario> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 		
+	}
+	
+	@GetMapping(value = "/prontuario/{idPaciente}")
+	public ResponseEntity<Prontuario> findProntuarioByPacienteId(@PathVariable Integer idPaciente){
+		Prontuario obj = service.findById(idPaciente);
+		return ResponseEntity.ok().body(obj);
 	}
 	
 	@GetMapping(value = "/{idProntuario}")

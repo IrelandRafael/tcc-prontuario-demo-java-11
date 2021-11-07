@@ -14,7 +14,7 @@ import com.unigranead.tcc.entities.Funcionario;
 import com.unigranead.tcc.services.FuncionarioServices;
 
 @RestController 
-@RequestMapping(value = "/funccionarios")
+@RequestMapping(value = "/funcionarios")
 public class FuncionarioResources {
 
 	@Autowired

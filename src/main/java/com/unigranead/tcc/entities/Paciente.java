@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,6 +34,9 @@ public class Paciente implements Serializable {
 	private Integer idPaciente;
 	private String Foto;
 	private String nome, rg, cpf, endereco, telefone;
+	
+	@Transient
+	private String usuario, senha;
 	
 	@ManyToOne
 	@JoinColumn(name = "idLogin")
@@ -163,6 +167,28 @@ public class Paciente implements Serializable {
 	public List<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
+	
+	
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+
+	public String getSenha() {
+		return senha;
+	}
+
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
 
 	@Override
 	public int hashCode() {

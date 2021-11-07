@@ -8,9 +8,13 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.unigranead.tcc.entities.Login;
 import com.unigranead.tcc.entities.Paciente;
+import com.unigranead.tcc.entities.Prontuario;
 import com.unigranead.tcc.repositories.PacienteRepository;
 import com.unigranead.tcc.services.exceptions.DataBaseException;
 import com.unigranead.tcc.services.exceptions.ResourceNotFoundException;
@@ -20,6 +24,15 @@ public class PacienteServices {
 
 	@Autowired
 	private PacienteRepository repository;
+	
+	@Autowired
+	private LoginServices loginServices;
+	
+	@Autowired
+	private ProntuarioServices prontuarioServices;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	public List<Paciente> findAll(){
 		return repository.findAll();
@@ -31,7 +44,26 @@ public class PacienteServices {
 	}
 	
 	public Paciente insert(Paciente obj) {
-		return repository.save(obj);
+		 Paciente paciente = repository.save(obj);
+		 if(paciente != null && paciente.getIdPaciente() != null) {
+			 Login login = new Login();
+			 login.setUsuario(obj.getUsuario());
+			 login.setSenha(encoder.encode(obj.getSenha()));
+			 login.setPermissao("PACIENTE");
+			 loginServices.insert(login);
+
+			 Prontuario prontuario = new Prontuario();
+			 prontuario.setPaciente(paciente);
+			 paciente.setProntuario(prontuario);
+			 prontuarioServices.insert(prontuario);
+			 
+			 paciente.setLogin(login);
+			 repository.save(paciente);
+		 } else  {
+			 throw new DataBaseException("Erro ao criar paciente. Tente novamente!");
+		 }
+		 
+		 return paciente;
 	}
 	
 	public void delete(Integer idPaciente) {
