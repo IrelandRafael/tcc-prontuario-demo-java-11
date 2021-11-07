@@ -76,7 +76,7 @@ public class TestConfig implements CommandLineRunner {
 			
 		
 
-		Paciente p1 = new Paciente(null, null,"Rafael Estrela Silva", "1101101 SSP/DF", "222.222.222-22", "Rua: 22, Casa: 22, Brasilia ","(061) 1111-11-11" ,lgpc1);
+		Paciente p1 = new Paciente(null, null,"Rafael Estrela Silva", "1101101 SSP/DF", "222.222.222-22", "Rua: 22, Casa: 22, Brasilia ","(061) 1111-11-11" ,lgpc1, null);
 		Prontuario pront1 = new Prontuario(null, null, null, null, null, null, null, null, p1);
 		
 		loginRepository.saveAll(Arrays.asList(lgpc1, lgpc2, lfun3, lfun4, lfun5, lfun6, lfun7, lfun8));

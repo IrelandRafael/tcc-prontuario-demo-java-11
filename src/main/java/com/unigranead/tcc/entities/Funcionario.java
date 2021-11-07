@@ -32,20 +32,20 @@ public class Funcionario implements Serializable{
 	private Login login;
 	
 	@JsonIgnore
-	@ManyToMany
+	@OneToMany(mappedBy = "medico")
 	private List<Medico> medicos = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany
+	@OneToMany(mappedBy = "enfermagem")
 	private List<Enfermagem> enfermagens = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany
+	@OneToMany(mappedBy = "atendente")
 	private List<Atendente> atendentes = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany
-	private List<Paciente> paccientes = new ArrayList<>();
+	@ManyToMany(mappedBy = "funcionarios")
+	private List<Paciente> pacientes = new ArrayList<>();
 	
 	public Funcionario() {
 		super();
@@ -98,7 +98,7 @@ public class Funcionario implements Serializable{
 	}
 	
 	public List<Paciente> getPaccientes() {
-		return paccientes;
+		return pacientes;
 	}
 
 

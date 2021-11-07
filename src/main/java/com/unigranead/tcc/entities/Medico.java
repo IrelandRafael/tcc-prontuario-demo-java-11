@@ -18,7 +18,7 @@ public class Medico implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "idFuncionario")
-	private Funcionario funcionario; 
+	private Funcionario medico; 
 
 	public Medico() {
 		super();
@@ -28,7 +28,7 @@ public class Medico implements Serializable {
 		super();
 		this.cfm = cfm;
 		this.departamentoMedico = departamentoMedico;
-		this.funcionario = funcionario;
+		this.medico = funcionario;
 	}
 
 	public String getCfm() {
@@ -44,11 +44,11 @@ public class Medico implements Serializable {
 	}
 
 	public Funcionario getFuncionario() {
-		return funcionario;
+		return medico;
 	}
 
 	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+		this.medico = funcionario;
 	}
 
 	public void setCfm(String cfm) {

@@ -18,7 +18,7 @@ public class Enfermagem implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "idFuncionario")
-	private Funcionario funionario;
+	private Funcionario enfermagem;
 
 	public Enfermagem() {
 		super();
@@ -28,7 +28,7 @@ public class Enfermagem implements Serializable {
 		super();
 		this.cip = cip;
 		this.departamentoEnfermagem = departamentoEnfermagem;
-		this.funionario = funionario;
+		this.enfermagem = funionario;
 	}
 
 	public String getCip() {
@@ -48,16 +48,16 @@ public class Enfermagem implements Serializable {
 	}
 
 	public Funcionario getFunionario() {
-		return funionario;
+		return enfermagem;
 	}
 
 	public void setFunionario(Funcionario funionario) {
-		this.funionario = funionario;
+		this.enfermagem = funionario;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cip, departamentoEnfermagem, funionario);
+		return Objects.hash(cip, departamentoEnfermagem, enfermagem);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Enfermagem implements Serializable {
 			return false;
 		Enfermagem other = (Enfermagem) obj;
 		return Objects.equals(cip, other.cip) && Objects.equals(departamentoEnfermagem, other.departamentoEnfermagem)
-				&& Objects.equals(funionario, other.funionario);
+				&& Objects.equals(enfermagem, other.enfermagem);
 	}
 	
 	

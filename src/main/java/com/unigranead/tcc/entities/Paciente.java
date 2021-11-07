@@ -1,6 +1,8 @@
 package com.unigranead.tcc.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -9,7 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,9 +38,13 @@ public class Paciente implements Serializable {
 	@JoinColumn(name = "idLogin")
 	private Login login;
 
-	@ManyToOne
-	@JoinColumn(name = "idFuncionario")
-	private Funcionario funcionario;
+	@ManyToMany
+    @JoinTable(
+        name = "paciente_prontuario",
+        joinColumns = @JoinColumn(name = "idPaciente"),
+        inverseJoinColumns = @JoinColumn(name = "idFuncionario")
+    )
+	private List<Funcionario> funcionarios = new ArrayList<>();
 	
 	@JsonIgnore
 	@OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
@@ -44,9 +54,9 @@ public class Paciente implements Serializable {
 		super();
 	}
 
-	
+		
 	public Paciente(Integer idPaciente, String foto, String nome, String rg, String cpf, String endereco,
-			String telefone, Login login) {
+			String telefone, Login login, Prontuario prontuario) {
 		super();
 		this.idPaciente = idPaciente;
 		Foto = foto;
@@ -56,8 +66,10 @@ public class Paciente implements Serializable {
 		this.endereco = endereco;
 		this.telefone = telefone;
 		this.login = login;
+		this.prontuario = prontuario;
 	}
-	
+
+
 	public Integer getIdPaciente() {
 		return idPaciente;
 	}
@@ -148,12 +160,8 @@ public class Paciente implements Serializable {
 	}
 
 
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
 	}
 
 	@Override

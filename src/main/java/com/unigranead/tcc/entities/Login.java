@@ -29,11 +29,11 @@ public class Login implements Serializable {
 	private String senha;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "login")
+	@OneToMany(mappedBy = "login")
 	private List<Paciente> pacientes = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "login")
+	@OneToMany(mappedBy = "login")
 	private List<Funcionario>funcionarios = new ArrayList<>();
 
 	

@@ -21,7 +21,7 @@ public class Atendente implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "idFuncionario")	
-	private Funcionario funcionario;
+	private Funcionario atendente;
 	
 	
 
@@ -32,7 +32,7 @@ public class Atendente implements Serializable {
 	public Atendente(Integer idAtendente, Funcionario funcionario) {
 		super();
 		this.idAtendente = idAtendente;
-		this.funcionario = funcionario;
+		this.atendente = funcionario;
 	}
 
 	public Integer getIdAtendente() {
@@ -44,16 +44,16 @@ public class Atendente implements Serializable {
 	}
 
 	public Funcionario getFuncionario() {
-		return funcionario;
+		return atendente;
 	}
 
 	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+		this.atendente = funcionario;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(funcionario, idAtendente);
+		return Objects.hash(atendente, idAtendente);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class Atendente implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Atendente other = (Atendente) obj;
-		return Objects.equals(funcionario, other.funcionario) && Objects.equals(idAtendente, other.idAtendente);
+		return Objects.equals(atendente, other.atendente) && Objects.equals(idAtendente, other.idAtendente);
 	}
 
 }

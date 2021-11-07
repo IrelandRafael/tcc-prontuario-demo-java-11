@@ -16,48 +16,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.unigranead.tcc.entities.Login;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.unigranead.tcc.entities.Paciente;
-import com.unigranead.tcc.services.LoginServices;
+import com.unigranead.tcc.entities.Prontuario;
+import com.unigranead.tcc.services.ProntuarioServices;
 
 @RestController 
-@RequestMapping(value = "/logins")
-public class LoginResources {
+@RequestMapping(value = "/prontuarios")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProntuarioResources {
 
 	@Autowired
-	private LoginServices service;
+	private ProntuarioServices service;
 	
 	@GetMapping
-	public ResponseEntity<List<Login>> findALL(){
-		List<Login> list = service.findAll();
+	public ResponseEntity<List<Prontuario>> findALL(){
+		List<Prontuario> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 		
 	}
 	
-	@GetMapping(value = "/{idLogin}")
-	public ResponseEntity<Login> findById(@PathVariable Integer idLogin){
-		Login obj = service.findById(idLogin);
+	@GetMapping(value = "/{idProntuario}")
+	public ResponseEntity<Prontuario> findById(@PathVariable Integer idProntuario){
+		Prontuario obj = service.findById(idProntuario);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Login> insert(@RequestBody Login obj){
+	public ResponseEntity<Prontuario> insert(@RequestBody Prontuario obj){
 		obj = service.insert(obj); 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idLogin}").buildAndExpand(obj.getIdLogin()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idprontuario}").buildAndExpand(obj.getIdProntuario()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
-	@DeleteMapping(value = "/{idLogin}")
-	public ResponseEntity<Void> delete(@PathVariable Integer idLogin){
-		service.delete(idLogin);
+	@DeleteMapping(value = "/{idProntuario}")
+	public ResponseEntity<Void> delete(@PathVariable Integer idProntuario){
+		service.delete(idProntuario);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping(value = "/{idLogin}")
-	public ResponseEntity<Login> update(@PathVariable Integer idLogin, @RequestBody Login obj){
-		obj = service.update(idLogin, obj);
+	@PutMapping(value = "/{idProntuario}")
+	public ResponseEntity<Prontuario> update(@PathVariable Integer idProntuario, @RequestBody Prontuario obj){
+		obj = service.update(idProntuario, obj);
 		return ResponseEntity.ok().body(obj);
 		
 	}
 	
+		
+
 }
