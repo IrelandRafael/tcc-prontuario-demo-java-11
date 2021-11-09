@@ -18,6 +18,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,16 +34,31 @@ public class Paciente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPaciente;
 	private String Foto;
-	private String nome, rg, cpf, endereco, telefone;
+	
+	@NotBlank(message = "Nnome é obrigatório")
+	private String nome;
+	
+	@NotBlank(message = "rg é obrigatório")
+	private String rg;
+	
+	@NotBlank(message = "cpf é obrigatório")
+	private String cpf;
+	
+	@NotBlank(message = "endereco é obrigatório")
+	private String endereco;
+	
+	@NotBlank(message = "telefone é obrigatório")
+	private String telefone;
 	
 	@Transient
 	private String usuario, senha;
 	
+
 	@ManyToOne
 	@JoinColumn(name = "idLogin")
 	private Login login;
 
-	@ManyToMany
+	@OneToMany
     @JoinTable(
         name = "paciente_prontuario",
         joinColumns = @JoinColumn(name = "idPaciente"),
@@ -60,7 +76,7 @@ public class Paciente implements Serializable {
 
 		
 	public Paciente(Integer idPaciente, String foto, String nome, String rg, String cpf, String endereco,
-			String telefone, Login login, Prontuario prontuario) {
+			String telefone, Login login) {
 		super();
 		this.idPaciente = idPaciente;
 		Foto = foto;
@@ -70,7 +86,6 @@ public class Paciente implements Serializable {
 		this.endereco = endereco;
 		this.telefone = telefone;
 		this.login = login;
-		this.prontuario = prontuario;
 	}
 
 

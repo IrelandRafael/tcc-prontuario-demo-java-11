@@ -39,6 +39,7 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.DELETE).hasAuthority("ADMIN")
+        .antMatchers("/paciente/{idPaciente}").hasAnyAuthority("ADMIN", "ATENDENTE")
         .antMatchers("/pacientes/paciente/**").hasAuthority("PACIENTE")
         .antMatchers("/pacientes/**").hasAnyAuthority("ADMIN", "ATENDENTE")
         .antMatchers("/prontuarios/prontuario/**").hasAuthority("PACIENTE")

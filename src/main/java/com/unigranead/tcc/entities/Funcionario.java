@@ -44,7 +44,7 @@ public class Funcionario implements Serializable{
 	private List<Atendente> atendentes = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "funcionarios")
+	@OneToMany(mappedBy = "funcionarios")
 	private List<Paciente> pacientes = new ArrayList<>();
 	
 	public Funcionario() {
