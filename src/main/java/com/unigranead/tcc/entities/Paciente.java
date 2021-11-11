@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -33,21 +34,23 @@ public class Paciente implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPaciente;
-	private String Foto;
 	
-	@NotBlank(message = "Nnome é obrigatório")
+	@Lob
+	private byte[] foto;
+	
+	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 	
-	@NotBlank(message = "rg é obrigatório")
+	@NotBlank(message = "RG é obrigatório")
 	private String rg;
 	
-	@NotBlank(message = "cpf é obrigatório")
+	@NotBlank(message = "CPF é obrigatório")
 	private String cpf;
 	
-	@NotBlank(message = "endereco é obrigatório")
+	@NotBlank(message = "Endereco é obrigatório")
 	private String endereco;
 	
-	@NotBlank(message = "telefone é obrigatório")
+	@NotBlank(message = "Telefone é obrigatório")
 	private String telefone;
 	
 	@Transient
@@ -73,13 +76,22 @@ public class Paciente implements Serializable {
 	public Paciente() {
 		super();
 	}
+	
+	
 
-		
-	public Paciente(Integer idPaciente, String foto, String nome, String rg, String cpf, String endereco,
+	public Paciente(Integer idPaciente, byte[] foto) {
+		super();
+		this.idPaciente = idPaciente;
+		this.foto = foto;
+	}
+
+
+
+	public Paciente(Integer idPaciente, byte[] foto, String nome, String rg, String cpf, String endereco,
 			String telefone, Login login) {
 		super();
 		this.idPaciente = idPaciente;
-		Foto = foto;
+		this.foto = foto;
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
@@ -99,13 +111,13 @@ public class Paciente implements Serializable {
 	}
 
 
-	public String getFoto() {
-		return Foto;
+	public byte[] getFoto() {
+		return foto;
 	}
 
 
-	public void setFoto(String foto) {
-		Foto = foto;
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 
 
@@ -221,9 +233,5 @@ public class Paciente implements Serializable {
 		Paciente other = (Paciente) obj;
 		return Objects.equals(cpf, other.cpf);
 	}
-
-	
-	
-	
 	
 }

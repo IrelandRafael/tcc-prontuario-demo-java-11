@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
@@ -20,7 +21,20 @@ public class Prontuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProntuario;
 	@Column(columnDefinition="LONGTEXT")
-	private String historico, medicamento, exame, diagnostico, condutaDoPaciente, condutaDiaria, alerta;
+	private String historico;
+	@Column(columnDefinition="LONGTEXT")
+	private String medicamento;
+	@Lob
+	private byte [] exame;
+	@Column(columnDefinition="LONGTEXT")
+	private String diagnostico;
+	@Column(columnDefinition="LONGTEXT")
+	private String condutaDoPaciente;
+	@Column(columnDefinition="LONGTEXT")
+	private String condutaDiaria; 
+	@Column(columnDefinition="LONGTEXT")
+	private String alerta;
+	
 	
 	@OneToOne
 	@MapsId
@@ -30,8 +44,17 @@ public class Prontuario implements Serializable {
 	public Prontuario() {
 		super();
 	}
+	
 
-	public Prontuario(Integer idProntuario, String historico, String medicamento, String exame, String diagnostico,
+	public Prontuario(Integer idProntuario, byte[] exame) {
+		super();
+		this.idProntuario = idProntuario;
+		this.exame = exame;
+	}
+
+
+
+	public Prontuario(Integer idProntuario, String historico, String medicamento, byte[] exame, String diagnostico,
 			String condutaDoPaciente, String condutaDiaria, String alerta, Paciente paciente) {
 		super();
 		this.idProntuario = idProntuario;
@@ -71,11 +94,11 @@ public class Prontuario implements Serializable {
 		this.medicamento = medicamento;
 	}
 
-	public String getExame() {
+	public byte[] getExame() {
 		return exame;
 	}
 
-	public void setExame(String exame) {
+	public void setExame(byte[] exame) {
 		this.exame = exame;
 	}
 

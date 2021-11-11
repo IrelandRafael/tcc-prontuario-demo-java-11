@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.unigranead.tcc.entities.Login;
-import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.services.LoginServices;
 
 @RestController 

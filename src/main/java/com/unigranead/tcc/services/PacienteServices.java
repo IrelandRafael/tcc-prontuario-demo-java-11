@@ -6,15 +6,11 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.reactive.WebFluxProperties.Session;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.jpa.provider.HibernateUtils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mysql.cj.xdevapi.SessionFactory;
 import com.unigranead.tcc.entities.Login;
 import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.entities.Prontuario;
@@ -58,37 +54,27 @@ public class PacienteServices {
 	
 	
 	public Paciente insert(Paciente obj) {
+		Paciente pacienteExistente = repository.findByCpf(obj.getCpf());
+		if (pacienteExistente != null) {
+			throw new DataBaseException("Erro ao criar paciente.  CPF existente!");
+		}
 
-		 Paciente paciente2 = repository.findByCpf(obj.getCpf());
-		 Paciente paciente;
-		 
-		 if (paciente2.getCpf() != null) {
-			 throw new DataBaseException("Erro ao criar paciente.  CPF existente!");
-		 }else {
-			 
-			paciente = repository.save(obj);
-			if(paciente != null && paciente.getIdPaciente() != null) {
-				 Login login = new Login();
-				 login.setUsuario(obj.getUsuario());
-				 login.setSenha(encoder.encode(obj.getSenha()));
-				 login.setPermissao("PACIENTE");
-				 loginServices.insert(login);
+		Paciente paciente = repository.save(obj);
+		Login login = new Login();
+		login.setUsuario(obj.getUsuario());
+		login.setSenha(encoder.encode(obj.getSenha()));
+		login.setPermissao("PACIENTE");
+		loginServices.insert(login);
 
-				 Prontuario prontuario = new Prontuario();
-				 prontuario.setPaciente(paciente);
-				 paciente.setProntuario(prontuario);
-				 prontuarioServices.insert(prontuario);
-				 
-				 paciente.setLogin(login);
-				 repository.save(paciente);
-			 } else  {
-				 throw new DataBaseException("Erro ao criar paciente. Tente novamente!");
-			 }
-		 }	
-		
-				 
-		 
-		 return paciente;
+		Prontuario prontuario = new Prontuario();
+		prontuario.setPaciente(paciente);
+		paciente.setProntuario(prontuario);
+		prontuarioServices.insert(prontuario);
+
+		paciente.setLogin(login);
+		repository.save(paciente);
+
+		return paciente;
 	}
 	
 	public void delete(Integer idPaciente) {
@@ -112,7 +98,7 @@ public class PacienteServices {
 		}
 	}
 
-	private void updateData(Paciente entity, Paciente obj) {
+	private void updateData(Paciente entity, Paciente obj)   {
 		
 		entity.setNome(obj.getNome());
 		entity.setRg(obj.getRg());

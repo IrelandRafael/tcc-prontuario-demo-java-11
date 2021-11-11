@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.unigranead.tcc.entities.Paciente;
 import com.unigranead.tcc.entities.Prontuario;
 import com.unigranead.tcc.repositories.ProntuarioRepository;
 import com.unigranead.tcc.services.exceptions.DataBaseException;
@@ -66,5 +65,6 @@ public class ProntuarioServices {
 		entity.setCondutaDiaria(obj.getCondutaDiaria());
 		entity.setAlerta(obj.getAlerta());
 	}
+	
 	
 }
