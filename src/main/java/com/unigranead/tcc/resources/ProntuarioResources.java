@@ -8,6 +8,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +26,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unigranead.tcc.entities.Login;
 import com.unigranead.tcc.entities.Prontuario;
+import com.unigranead.tcc.services.LoginServices;
+import com.unigranead.tcc.services.PacienteServices;
 import com.unigranead.tcc.services.ProntuarioServices;
 import com.unigranead.tcc.services.exceptions.DataBaseException;
 
@@ -33,37 +39,50 @@ import com.unigranead.tcc.services.exceptions.DataBaseException;
 public class ProntuarioResources {
 
 	@Autowired
-	private ProntuarioServices service;
+	private ProntuarioServices prontuarioService;
+	
+	@Autowired
+	private LoginServices loginServices;
+	
+	@Autowired
+	private PacienteServices pacienteService;
 	
 	@GetMapping
 	public ResponseEntity<List<Prontuario>> findALL(){
-		List<Prontuario> list = service.findAll();
+		List<Prontuario> list = prontuarioService.findAll();
 		return ResponseEntity.ok().body(list);
 		
 	}
 	
 	@GetMapping(value = "/prontuario/{idPaciente}")
 	public ResponseEntity<Prontuario> findProntuarioByPacienteId(@PathVariable Integer idPaciente){
-		Prontuario obj = service.findById(idPaciente);
+		Prontuario obj = prontuarioService.findById(idPaciente);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(!(authentication instanceof AnonymousAuthenticationToken)) {
+			Login login = loginServices.findByUser(authentication.getName());
+			if(login.getPermissao().equals("PACIENTE") && login.getIdLogin().longValue() != obj.getPaciente().getLogin().getIdLogin().longValue()) {
+				throw new DataBaseException("Nao Autorizado!!");
+			}
+		}
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@GetMapping(value = "/{idProntuario}")
 	public ResponseEntity<Prontuario> findById(@PathVariable Integer idProntuario){
-		Prontuario obj = service.findById(idProntuario);
+		Prontuario obj = prontuarioService.findById(idProntuario);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Prontuario> insert(@RequestBody Prontuario obj){
-		obj = service.insert(obj); 
+		obj = prontuarioService.insert(obj); 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idprontuario}").buildAndExpand(obj.getIdProntuario()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
 	@DeleteMapping(value = "/{idProntuario}")
 	public ResponseEntity<Void> delete(@PathVariable Integer idProntuario){
-		service.delete(idProntuario);
+		prontuarioService.delete(idProntuario);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -71,7 +90,7 @@ public class ProntuarioResources {
 	public ResponseEntity<Prontuario> update(@PathVariable Integer idProntuario, @RequestPart("prontuario") String prontuario, 
 			@RequestPart("exame") MultipartFile exame){
 		Prontuario prontuarioObj = converteStringToProntuario(prontuario, exame);
-		prontuarioObj = service.update(idProntuario, prontuarioObj);
+		prontuarioObj = prontuarioService.update(idProntuario, prontuarioObj);
 		return ResponseEntity.ok().body(prontuarioObj);
 	}
 	

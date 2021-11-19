@@ -10,6 +10,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +28,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unigranead.tcc.entities.Login;
 import com.unigranead.tcc.entities.Paciente;
+import com.unigranead.tcc.services.LoginServices;
 import com.unigranead.tcc.services.PacienteServices;
 import com.unigranead.tcc.services.exceptions.DataBaseException;
 
@@ -35,7 +40,11 @@ import com.unigranead.tcc.services.exceptions.DataBaseException;
 public class PacienteResources {
 
 	@Autowired
-	private PacienteServices service;
+	private PacienteServices service; 
+	
+	@Autowired
+	private LoginServices logService;
+	
 	
 	@GetMapping
 	public ResponseEntity<List<Paciente>> findALL(){
@@ -47,6 +56,14 @@ public class PacienteResources {
 	@GetMapping(value = "/paciente/{idPaciente}")
 	public ResponseEntity<Paciente> findPacienteById(@PathVariable Integer idPaciente){
 		Paciente obj = service.findById(idPaciente);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(!(authentication instanceof AnonymousAuthenticationToken)) {
+			Login login = logService.findByUser(authentication.getName());
+			if(login.getPermissao().equals("PACIENTE") && login.getIdLogin().longValue() != obj.getLogin().getIdLogin().longValue()) {
+				throw new DataBaseException("Nao Autorizado!!");
+			}
+		}
+		
 		return ResponseEntity.ok().body(obj);
 	}
 	

@@ -25,6 +25,12 @@ public class LoginServices {
 		return repository.findAll();
 	}
 	
+	public Login findByUser(String usuario) {
+		return  repository.findByUsuario(usuario);
+		
+	}
+	
+	
 	public Login findById(Integer idLogin) {
 		Optional<Login> obj = repository.findById(idLogin);
 		return obj.get();

@@ -21,6 +21,8 @@ public class ProntuarioServices {
 	@Autowired
 	private ProntuarioRepository repository;
 	
+
+	
 	public List<Prontuario> findAll(){
 		return repository.findAll();
 	}
