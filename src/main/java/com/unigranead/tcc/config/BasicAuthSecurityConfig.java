@@ -1,5 +1,6 @@
 package com.unigranead.tcc.config;
 
+import com.unigranead.tcc.pages.CustomerLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +20,10 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Autowired
     private UserDetailsService userDetailsService;
- 
+
+    @Autowired
+    private CustomerLoginSuccessHandler sucessHandler;
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -35,9 +40,14 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+      String loginPage = "/login";
+      String logoutPage = "/logout";
+
     	http
         .csrf().disable()
         .authorizeRequests()
+        .antMatchers("/").permitAll()
+        .antMatchers(loginPage).permitAll()
         .antMatchers(HttpMethod.DELETE).hasAuthority("ADMIN")
         .antMatchers("/paciente/{idPaciente}").hasAnyAuthority("ADMIN", "ATENDENTE")
         .antMatchers("/pacientes/paciente/**").hasAuthority("PACIENTE")
@@ -49,10 +59,46 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/funcionarios/**").hasAuthority("ADMIN")
         .antMatchers("/medicos/**").hasAuthority("ADMIN")
         .antMatchers("/logins/**").hasAuthority("ADMIN")
-            .anyRequest().authenticated()
-            .and()
-        .httpBasic();
-    	
+
+        .antMatchers( "/configuration/**", "/webjars/**").permitAll()
+        .antMatchers("/list-pacientes").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/view-paciente").hasAnyAuthority("PACIENTE", "ADMIN", "ATENDENTE")
+        .antMatchers("/view-historico").hasAnyAuthority("PACIENTE")
+        .antMatchers("/view-medicamento").hasAnyAuthority("PACIENTE")
+        .antMatchers("/view-exame").hasAnyAuthority("PACIENTE")
+        .antMatchers("/view-diagnostico").hasAnyAuthority("PACIENTE")
+        .antMatchers("/edit-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/atualizar-paciente").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/delete-paciente").hasAuthority("ADMIN")
+        .antMatchers("/edit-historico-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/atualizar-prontuario").hasAnyAuthority("ADMIN", "ATENDENTE")
+
+        .antMatchers("/edit-medicamento-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/edit-exame-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/edit-diag-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/atualizar-exame").hasAnyAuthority("ADMIN", "ATENDENTE")
+
+        .antMatchers("/edit-conduta-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/edit-conduta-diaria-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/edit-alerta-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+
+        .antMatchers("/view-conduta-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/view-conduta-diaria-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/view-alerta-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+
+        .antMatchers("/criar-paciente-form").hasAnyAuthority("ADMIN", "ATENDENTE")
+        .antMatchers("/criar-paciente").hasAnyAuthority("ADMIN", "ATENDENTE")
+
+        .anyRequest().authenticated()
+        .and()
+        .httpBasic()
+          .and().formLogin()
+          .loginPage(loginPage)
+          .loginPage("/")
+          .successHandler(sucessHandler)
+          .failureUrl("/login?error=true")
+          .usernameParameter("user_name")
+          .passwordParameter("password");
     }
  
     @Override
@@ -64,5 +110,12 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return userDetailsService;
     }
-    
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+            .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/fonts/**", "/vendor/**");
+    }
+
+
 }

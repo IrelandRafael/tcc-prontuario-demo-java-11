@@ -58,14 +58,27 @@ public class ProntuarioServices {
 	}
 
 	private void updateData(Prontuario entity, Prontuario obj) {
-		
-		entity.setHistorico(obj.getHistorico());
-		entity.setMedicamento(obj.getMedicamento());
-		entity.setExame(obj.getExame());
-		entity.setDiagnostico(obj.getDiagnostico());
-		entity.setCondutaDoPaciente(obj.getCondutaDoPaciente());
-		entity.setCondutaDiaria(obj.getCondutaDiaria());
-		entity.setAlerta(obj.getAlerta());
+
+		if(obj.getHistorico() != null && !obj.getHistorico().equals(entity.getHistorico()))
+			entity.setHistorico(obj.getHistorico());
+
+		if(obj.getMedicamento() != null && !obj.getMedicamento().equals(entity.getMedicamento()))
+			entity.setMedicamento(obj.getMedicamento());
+
+		if(obj.getExame() != null && !obj.getExame().equals(entity.getExame()))
+			entity.setExame(obj.getExame());
+
+		if(obj.getDiagnostico() != null && !obj.getDiagnostico().equals(entity.getDiagnostico()))
+			entity.setDiagnostico(obj.getDiagnostico());
+
+		if(obj.getCondutaDoPaciente() != null && !obj.getCondutaDoPaciente().equals(entity.getCondutaDoPaciente()))
+			entity.setCondutaDoPaciente(obj.getCondutaDoPaciente());
+
+		if(obj.getCondutaDiaria() != null && !obj.getCondutaDiaria().equals(entity.getCondutaDiaria()))
+			entity.setCondutaDiaria(obj.getCondutaDiaria());
+
+		if(obj.getAlerta() != null && !obj.getAlerta().equals(entity.getAlerta()))
+			entity.setAlerta(obj.getAlerta());
 	}
 	
 	

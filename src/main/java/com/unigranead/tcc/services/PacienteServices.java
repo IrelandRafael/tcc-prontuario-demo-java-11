@@ -37,6 +37,10 @@ public class PacienteServices {
 	public List<Paciente> findAll(){
 		return repository.findAll();
 	}
+
+	public List<Paciente> findByNomeLike(String nome){
+		return repository.findByNomeLike("%"+nome+"%");
+	}
 	
 	public Paciente findById(Integer idPaciente) {
 		Optional<Paciente> obj = repository.findById(idPaciente);

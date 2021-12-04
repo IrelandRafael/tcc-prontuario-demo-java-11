@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Lista de pacientes</title>
+  <meta charset="UTF-8">
+  
+  <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="/static/images/icons/favicon.ico"/>
+  <link rel="stylesheet" type="text/css"  href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"  href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css"  href="/fonts/iconic/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" type="text/css"  href="/vendor/animate/animate.css">
+  <link rel="stylesheet" type="text/css"  href="/vendor/css-hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" type="text/css"  href="/vendor/animsition/css/animsition.min.css">
+  <link rel="stylesheet" type="text/css"  href="/vendor/select2/select2.min.css">
+  <link rel="stylesheet" type="text/css"  href="/vendor/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" type="text/css"  href="/css/util.css">
+  <link rel="stylesheet" type="text/css"  href="/css/main.css">
+</head>
+<body>
+
+
+
+<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30" style="width: 90%!important; height:100%">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <h1 style="float:left;font-family:'Arial';margin-top: -5%;">Lista de Pacientes</h1>
+    <span style="font-size: 16px;float:right;margin-top: -5%;font-weight: bold" th:utext="${userName}"></span>
+    <button class="btn btn-lg" style="float:right;width:15%;margin-top: -4%;">
+      <i class="glyphicon glyphicon-log-out"></i>
+      <a href="/logout" class="txt2 hov1" style="color:black;">
+        Log out
+      </a>
+    </button>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <form th:action="@{/list-pacientes}" method="get">
+      <div class="input-group search_button" style="float:left;margin-top:5%">
+        <input class="form-control" type="text" placeholder="Buscar por Nome"
+               th:value="${searchValue}" name="searchValue" aria-label="Search" >
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+
+        <div class="input-group-append">
+          <a style="font-size:14px;font-family:'Arial'; margin-left: 10px;"
+             th:href="@{../criar-paciente-form}"
+             class="btn btn-block btn-secondary"><i
+              class="glyphicon glyphicon-pencil"></i>  Novo</a>
+        </div>
+      </div>
+    </form>
+    <br>
+    <div class="table-responsive" style="margin-top:10%;">
+      <table   id="example1" class="table table-bordered table-striped">
+        <thead style="font-size:14px;font-family:'Verdana';text-transform: uppercase;text-align: left;">
+        <th>#</th>
+        <th>Nome</th>
+        <th>Contato</th>
+        <th>Acoes</th>
+        <th></th>
+        </thead>
+        <tbody style="font-size:16px;font-family:'Arial';text-align: left;">
+
+        <tr th:each="paciente,iterStat  : ${pacientes}" th:id="${paciente.idPaciente}">
+          <td th:text="${paciente.getIdPaciente}"></td>
+          <td th:text="${paciente.getNome}"></td>
+          <td th:text="${paciente.getTelefone}"></td>
+          <td><a style="font-size:14px;font-family:'Arial';background-color: #1c7430"
+                 th:href="@{../view-paciente/{id}(id=${paciente.idPaciente})}"
+                 class="btn btn-block btn-secondary"><i
+              class="glyphicon glyphicon-pencil"></i>  Visualizar</a></td>
+          <td><a style="font-size:14px;font-family:'Arial';background-color: #a07800"
+                 th:href="@{../edit-paciente-form/{id}(id=${paciente.idPaciente})}"
+                 class="btn btn-block btn-secondary"><i
+              class="glyphicon glyphicon-pencil"></i>  Editar</a></td>
+          <td><a style="font-size:14px;font-family:'Arial';background-color: red"
+                 th:href="@{../delete-paciente/{id}(id=${paciente.idPaciente})}"
+                 class="btn btn-block btn-secondary"><i
+              class="glyphicon glyphicon-pencil"></i>  Excluir</a></td>
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="/vendor/animsition/js/animsition.min.js"></script>
+<script src="/vendor/bootstrap/js/popper.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/vendor/select2/select2.min.js"></script>
+<script src="/vendor/daterangepicker/moment.min.js"></script>
+<script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="/vendor/countdowntime/countdowntime.js"></script>
+<script src="/js/sweetalert.min.js"></script>
+<script src="/js/main.js"></script>
+<script  src="/plugins/datatables/jquery.dataTables.js"></script>
+<script  src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="/js/list.js"></script>
+
+</body>
+</html>

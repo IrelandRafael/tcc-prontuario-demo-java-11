@@ -42,11 +42,12 @@ public class Login implements Serializable {
 		super();
 	}
 
-	public Login(Integer idLogin, String usuario, String senha) {
+	public Login(Integer idLogin, String usuario, String senha, String permissao) {
 		super();
 		this.idLogin = idLogin;
 		this.usuario = usuario;
 		this.senha = senha;
+		this.permissao = permissao;
 	}
 
 	public Integer getIdLogin() {

@@ -1,11 +1,11 @@
 package com.unigranead.tcc.resources;
 
 
-import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,12 +38,10 @@ public class LoginResources {
 		Login obj = service.findById(idLogin);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Login> insert(@RequestBody Login obj){
-		obj = service.insert(obj); 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{idLogin}").buildAndExpand(obj.getIdLogin()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public Login login() {
+		return service.findByUser(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 	
 	@DeleteMapping(value = "/{idLogin}")

@@ -13,16 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
@@ -54,8 +51,12 @@ public class Paciente implements Serializable {
 	private String telefone;
 	
 	@Transient
-	private String usuario, senha;
-	
+	@NotBlank(message = "Usuario é obrigatório")
+	private String usuario;
+
+	@Transient
+	@NotBlank(message = "Senha é obrigatório")
+	private String senha;
 
 	@ManyToOne
 	@JoinColumn(name = "idLogin")

@@ -8,7 +8,7 @@ public class ProntuarioApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProntuarioApplication.class, args);
-
+	
 	}
 
 }
