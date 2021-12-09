@@ -83,14 +83,14 @@
               <div class="wrap-input100 m-b-25">
                 <input type="text" th:field="*{usuario}"  maxlength="20" name="object"
                        class="form-control input100"/>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
+                <div class="alert alert-warning" th:if="${usuarioObg}" th:text="${usuarioObg}"></div>
               </div>
 
               <label style="color:#696969">Senha</label>
               <div class="wrap-input100 m-b-25">
                 <input type="text" th:field="*{senha}"  maxlength="20" name="object"
                        class="form-control input100"/>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+                <div class="alert alert-warning" th:if="${senhaObg}" th:text="${senhaObg}"></div>
               </div>
 
             </div>

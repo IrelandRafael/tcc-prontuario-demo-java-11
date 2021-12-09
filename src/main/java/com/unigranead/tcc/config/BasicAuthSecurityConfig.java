@@ -91,7 +91,7 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 
         .anyRequest().authenticated()
         .and()
-        .httpBasic()
+        .authorizeRequests()
           .and().formLogin()
           .loginPage(loginPage)
           .loginPage("/")

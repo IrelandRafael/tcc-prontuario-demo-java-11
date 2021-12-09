@@ -66,38 +66,47 @@
           <div class="card-header">
             <h3 class="card-title">VISUALIZAR DADOS PACIENTE</h3>
           </div>
-          <form class="login100-form validate-form" autocomplete="off" th:action="@{/atualizar-paciente}"
+          <form enctype="multipart/form-data" class="login100-form validate-form" autocomplete="off"
+                th:action="@{/atualizar-paciente}"
                 th:object="${paciente}" method="post" role="form">
             <input type="hidden" th:field="*{idPaciente}" name="id"/>
             <div class="card-body">
               <label style="color:#696969">Foto</label>
-              <img class='img-thumbnail' style="width: 150px"
+              <img class='img-thumbnail' style="width: 150px" th:if="${notEmptyFoto}"
                    th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(paciente.foto)}" />
+              <br />
+              <label style="color:#696969">Nova foto?</label>
+              <input type="file" name="file" />
               <br />
               <label style="color:#696969">Nome</label>
               <div class="wrap-input100 m-b-25">
                 <input type="text" th:field="*{nome}"  maxlength="100" name="object"
                        class="form-control input100"/>
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
               </div>
               <label style="color:#696969">Rg</label>
               <div class="wrap-input100 m-b-25">
                 <input type="text" th:field="*{rg}"  maxlength="20" name="object"
                        class="form-control input100"/>
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('rg')}" th:errors="*{rg}"></div>
               </div>
               <label style="color:#696969">CPF</label>
               <div class="wrap-input100 m-b-25">
                 <input type="text" th:field="*{cpf}"  maxlength="20" name="object"
                        class="form-control input100"/>
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></div>
               </div>
               <label style="color:#696969">Endereco</label>
               <div class="wrap-input100 m-b-25">
                 <input type="text" th:field="*{endereco}"  maxlength="100" name="object"
                        class="form-control input100"/>
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}"></div>
               </div>
               <label style="color:#696969">Telefone</label>
               <div class="wrap-input100 m-b-25">
                   <input type="text" th:field="*{telefone}"  maxlength="20" name="object"
                          class="form-control input100"/>
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
               </div>
             </div>
 

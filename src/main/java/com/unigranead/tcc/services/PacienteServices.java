@@ -109,6 +109,8 @@ public class PacienteServices {
 		entity.setRg(obj.getRg());
 		entity.setCpf(obj.getCpf());
 		entity.setTelefone(obj.getTelefone());
+		entity.setEndereco(obj.getEndereco());
+		entity.setFoto(obj.getFoto());
 		
 	}
 

@@ -67,7 +67,7 @@
           <form class="login100-form" autocomplete="off" th:object="${paciente}">
             <div class="card-body">
               <label style="color:#696969">Foto</label>
-              <img class='img-thumbnail' style="width: 150px"
+              <img class='img-thumbnail' style="width: 150px" th:if="${notEmptyFoto}"
                    th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(paciente.foto)}" />
               <br />
               <label style="color:#696969">Nome</label>

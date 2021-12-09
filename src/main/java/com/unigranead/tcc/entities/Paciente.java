@@ -51,11 +51,9 @@ public class Paciente implements Serializable {
 	private String telefone;
 	
 	@Transient
-	@NotBlank(message = "Usuario é obrigatório")
 	private String usuario;
 
 	@Transient
-	@NotBlank(message = "Senha é obrigatório")
 	private String senha;
 
 	@ManyToOne

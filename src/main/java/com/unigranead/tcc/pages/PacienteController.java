@@ -11,7 +11,6 @@ import com.unigranead.tcc.services.ProntuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +56,10 @@ public class PacienteController {
   public ModelAndView viewPaciente(@PathVariable("id") Integer id) {
     ModelAndView modelAndView = new ModelAndView();
     Paciente paciente = pacienteServices.findById(id);
+
+    if(paciente.getFoto().length > 0) {
+      modelAndView.addObject("notEmptyFoto", "notEmptyFoto");
+    }
 
     modelAndView.addObject("userName",
                            "Bem vindo  " + SecurityContextHolder.getContext().getAuthentication().getName());
@@ -120,6 +123,10 @@ public class PacienteController {
     ModelAndView modelAndView = new ModelAndView();
     Paciente paciente = pacienteServices.findById(id);
 
+    if(paciente.getFoto().length > 0) {
+      modelAndView.addObject("notEmptyFoto", "notEmptyFoto");
+    }
+
     modelAndView.addObject("userName",
                            "Bem vindo  " + SecurityContextHolder.getContext().getAuthentication().getName());
     modelAndView.addObject("paciente", paciente);
@@ -129,15 +136,22 @@ public class PacienteController {
   }
 
   @PostMapping(value = "/atualizar-paciente")
-  public ModelAndView updatePaciente(Paciente paciente, BindingResult bindingResult) {
+  public ModelAndView updatePaciente(@RequestParam("file") MultipartFile file, @Valid Paciente paciente,
+                                     BindingResult bindingResult) {
     ModelAndView modelAndView = new ModelAndView(new RedirectView());
     if (bindingResult.hasErrors()) {
       modelAndView.setViewName("edit-paciente");
+      modelAndView.addObject("imgUtil", new ImageUtil());
     } else {
+      try {
+        paciente.setFoto(file.getBytes());
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
       pacienteServices.update(paciente.getIdPaciente(), paciente);
       modelAndView.addObject("successMessage", "Paciente atualizado com sucesso");
       modelAndView.setViewName("redirect:edit-paciente-form/"+paciente.getIdPaciente());
-    }
+   }
     return modelAndView;
   }
 
@@ -247,7 +261,15 @@ public class PacienteController {
   public ModelAndView criarPacienteForm(@RequestParam("file") MultipartFile file, @Valid Paciente paciente, BindingResult result) {
     ModelAndView modelAndView = new ModelAndView();
 
-    if (result.hasErrors()) {
+    if (result.hasErrors() || StringUtils.isEmpty(paciente.getUsuario()) || StringUtils.isEmpty(paciente.getSenha())) {
+      if(StringUtils.isEmpty(paciente.getUsuario())) {
+        modelAndView.addObject("usuarioObg", "Campo Usuario é obrigatório");
+      }
+
+      if(StringUtils.isEmpty(paciente.getSenha())) {
+        modelAndView.addObject("senhaObg", "Campo Senha é obrigatório");
+      }
+
       modelAndView.setViewName("criar-paciente");
       return modelAndView;
     }
