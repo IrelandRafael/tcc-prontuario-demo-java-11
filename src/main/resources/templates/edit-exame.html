@@ -76,13 +76,13 @@
                      th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(paciente.prontuario.exame)}" />
               </div>
 
-              <label style="color:#696969">Atualizar Exame</label>
-              <div class="wrap-input100 m-b-25">
+              <label style="color:#696969" sec:authorize="hasAnyAuthority('ADMIN')">Atualizar Exame</label>
+              <div sec:authorize="hasAnyAuthority('ADMIN')" class="wrap-input100 m-b-25">
                 <input type="file" name="file" />
               </div>
             </div>
 
-            <div class="card-footer">
+            <div class="card-footer" sec:authorize="hasAnyAuthority('ADMIN')">
               <button type="submit" class="btn btn-info"  value="client">Atualizar</button>
               <div align="center" >
                 <h4><span class="text-success " th:utext="${successMessage}"></span></h4>
