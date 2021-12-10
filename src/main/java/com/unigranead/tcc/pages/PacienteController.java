@@ -287,15 +287,19 @@ public class PacienteController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    pacienteServices.insert(paciente);
+    try {
+      pacienteServices.insert(paciente);
+      List<Paciente> pacientes = pacienteServices.findAll();
+      modelAndView.addObject("userName",
+                             "Bem vindo  " + SecurityContextHolder.getContext().getAuthentication().getName());
+      modelAndView.addObject("pacientes", pacientes);
+      modelAndView.setViewName("list-pacientes");
+    } catch (Exception e) {
+      modelAndView.addObject("loginExistente", e.getMessage());
+      modelAndView.setViewName("criar-paciente");
+    }
 
-    List<Paciente> pacientes = pacienteServices.findAll();
 
-    modelAndView.addObject("userName",
-                           "Bem vindo  " + SecurityContextHolder.getContext().getAuthentication().getName());
-    modelAndView.addObject("pacientes", pacientes);
-
-    modelAndView.setViewName("list-pacientes");
     return modelAndView;
   }
 
