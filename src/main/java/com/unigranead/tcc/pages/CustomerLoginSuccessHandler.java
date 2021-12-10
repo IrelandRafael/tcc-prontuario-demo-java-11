@@ -51,7 +51,7 @@ public class CustomerLoginSuccessHandler extends SimpleUrlAuthenticationSuccessH
       roles.add(a.getAuthority());
     }
 
-    if(roles.contains("ADMIN") || roles.contains("ATENDENTE")) {
+    if(roles.contains("ADMIN") || roles.contains("ATENDENTE") || roles.contains("ENFERMEIRA")) {
       url = "/list-pacientes";
     }
     else if(roles.contains("PACIENTE")) {
