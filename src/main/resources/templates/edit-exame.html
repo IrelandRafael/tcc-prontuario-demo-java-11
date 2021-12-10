@@ -72,7 +72,7 @@
 
               <label style="color:#696969">Exame atual</label>
               <div class="wrap-input100 m-b-25">
-                <img class='img-thumbnail' style="width: 150px"
+                <img class='img-thumbnail' style="width: 150px" th:if="${notEmptyFoto}"
                      th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(paciente.prontuario.exame)}" />
               </div>
 
