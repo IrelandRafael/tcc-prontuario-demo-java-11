@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-  <title>Visualizar historico</title>
+  <title>Visualizar exame</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="/images/icons/favicon.ico"/>
@@ -63,14 +63,14 @@
       <div class="col-md-12">
         <div class="card card-info" >
           <div class="card-header">
-            <h3 class="card-title">VISUALIZAR HISTORICO</h3>
+            <h3 class="card-title">VISUALIZAR EXAME</h3>
           </div>
           <form class="login100-form" autocomplete="off" th:object="${paciente}">
             <div class="card-body">
-              <label style="color:#696969">Historico</label>
+              <label style="color:#696969">Exame</label>
               <div class="wrap-input100 m-b-25">
-                <input type="text" th:field="*{prontuario.historico}"  maxlength="100" name="object"
-                       class="form-control input100" readonly/>
+                <img class='img-thumbnail' style="width: 150px" th:if="${notEmptyFoto}"
+                     th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(paciente.prontuario.exame)}" />
               </div>
             </div>
           </form>
