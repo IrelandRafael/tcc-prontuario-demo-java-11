@@ -68,7 +68,7 @@
         <th>Nome</th>
         <th>Contato</th>
         <th>Acoes</th>
-        <th></th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ENFERMEIRA')"></th>
         </thead>
         <tbody style="font-size:16px;font-family:'Arial';text-align: left;">
 
