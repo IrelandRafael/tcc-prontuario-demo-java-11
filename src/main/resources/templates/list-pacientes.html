@@ -80,11 +80,11 @@
                  th:href="@{../view-paciente/{id}(id=${paciente.idPaciente})}"
                  class="btn btn-block btn-secondary"><i
               class="glyphicon glyphicon-pencil"></i>  Visualizar</a></td>
-          <td><a style="font-size:14px;font-family:'Arial';background-color: #a07800"
+          <td sec:authorize="hasAnyAuthority('ADMIN', 'ENFERMEIRA')"><a style="font-size:14px;font-family:'Arial';background-color: #a07800"
                  th:href="@{../edit-paciente-form/{id}(id=${paciente.idPaciente})}"
                  class="btn btn-block btn-secondary"><i
               class="glyphicon glyphicon-pencil"></i>  Editar</a></td>
-          <td><a style="font-size:14px;font-family:'Arial';background-color: red"
+          <td sec:authorize="hasAnyAuthority('ADMIN')"><a style="font-size:14px;font-family:'Arial';background-color: red"
                  th:href="@{../delete-paciente/{id}(id=${paciente.idPaciente})}"
                  class="btn btn-block btn-secondary"><i
               class="glyphicon glyphicon-pencil"></i>  Excluir</a></td>
