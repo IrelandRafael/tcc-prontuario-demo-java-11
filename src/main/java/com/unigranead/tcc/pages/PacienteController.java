@@ -98,6 +98,10 @@ public class PacienteController {
     ModelAndView modelAndView = new ModelAndView();
     Paciente paciente = pacienteServices.findById(id);
 
+    if(paciente.getProntuario().getExame() != null && paciente.getProntuario().getExame().length > 0) {
+      modelAndView.addObject("notEmptyFoto", "notEmptyFoto");
+    }
+
     modelAndView.addObject("userName",
                            "Bem vindo  " + SecurityContextHolder.getContext().getAuthentication().getName());
     modelAndView.addObject("paciente", paciente);
@@ -204,6 +208,10 @@ public class PacienteController {
   public ModelAndView editExamePacienteForm(@PathVariable("id") Integer id) {
     ModelAndView modelAndView = new ModelAndView();
     Paciente paciente = pacienteServices.findById(id);
+
+    if(paciente.getProntuario().getExame() != null && paciente.getProntuario().getExame().length > 0) {
+      modelAndView.addObject("notEmptyFoto", "notEmptyFoto");
+    }
 
     modelAndView.addObject("userName",
                            "Bem vindo  " + SecurityContextHolder.getContext().getAuthentication().getName());
