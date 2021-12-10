@@ -52,7 +52,7 @@
           </button>
         </div>
 
-        <div class="input-group-append">
+        <div class="input-group-append" sec:authorize="hasAnyAuthority('ADMIN', 'ATENDENTE')">
           <a style="font-size:14px;font-family:'Arial'; margin-left: 10px;"
              th:href="@{../criar-paciente-form}"
              class="btn btn-block btn-secondary"><i
